@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">IDTEx</string>
+    <string name="search_states">Search States</string>
+    <string name="filter">Filter</string>
+    <string name="open_second_screen">Open Second Screen</string>
+    <string name="search_here">Search Here</string>
+    <string name="no_state_available">No State available</string>
+    <string name="select_only_one_state">Select only one state</string>
+    <string name="state"><![CDATA[<i>State Name:</i>%s]]></string>
+    <string name="population_level"><![CDATA[<i>State overall population:</i>%s]]></string>
+    <string name="counties"><![CDATA[<i>Number of counties:</i>%s]]></string>
+    <string name="total_counties_population"><![CDATA[<i>Total of county population:</i>%s]]></string>
+    <string name="state_counties">State == Counties: %s</string>
+</resources>

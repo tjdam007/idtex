@@ -1,0 +1,59 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CEFBFA">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/filterEditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_here"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSecondScreen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/open_second_screen"
+        app:layout_constraintBottom_toBottomOf="@id/filterEditText"
+        app:layout_constraintStart_toEndOf="@+id/filterEditText"
+        app:layout_constraintTop_toTopOf="@id/filterEditText" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/containerList"
+        android:name="com.example.idtex.ui.StateListFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#E2C8C8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/containerFilterList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterEditText" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/containerFilterList"
+        android:name="com.example.idtex.ui.StateListFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#A7C5A8"
+        app:layout_constraintBottom_toBottomOf="@+id/containerList"
+        app:layout_constraintEnd_toStartOf="@+id/containerDetails"
+        app:layout_constraintStart_toEndOf="@+id/containerList"
+        app:layout_constraintTop_toTopOf="@id/containerList" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/containerDetails"
+        android:name="com.example.idtex.ui.StateDetailFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#E9D9A9"
+        app:layout_constraintBottom_toBottomOf="@+id/containerFilterList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/containerFilterList"
+        app:layout_constraintTop_toBottomOf="@id/filterEditText"
+        app:layout_constraintTop_toTopOf="@+id/containerFilterList" />
+</androidx.constraintlayout.widget.ConstraintLayout>
