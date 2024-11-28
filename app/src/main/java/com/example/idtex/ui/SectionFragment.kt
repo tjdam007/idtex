@@ -55,7 +55,6 @@ class SectionFragment : Fragment() {
             childFragmentManager.findFragmentById(R.id.containerList) as StateListFragment
         val fragmentFilterList =
             childFragmentManager.findFragmentById(R.id.containerFilterList) as StateListFragment
-        childFragmentManager.findFragmentById(R.id.containerDetails) as StateDetailFragment
 
         // Observe data response
         stateViewModel.states.observe(viewLifecycleOwner) { response ->

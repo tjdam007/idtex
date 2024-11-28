@@ -6,11 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.idtex.databinding.FragmentStateListBinding
 import  com.example.idtex.entities.State
+import com.example.idtex.repositories.StateRepository
 import com.example.idtex.utils.DATA
 import com.example.idtex.utils.SELECTED_STATE
+import com.example.idtex.viewmodels.StateViewModel
+import com.example.idtex.viewmodels.StateViewModelFactory
+import kotlin.getValue
 
 /**
  * A Fragment that displays a list of states and handles user interactions.
@@ -19,8 +24,16 @@ class StateListFragment : Fragment() {
 
     private var _binding: FragmentStateListBinding? = null
     private val binding get() = _binding!!
+    private var stateChangedHere = false
 
     private val adapter = StateAdapter()
+
+    private val stateViewModel: StateViewModel by activityViewModels {
+        StateViewModelFactory(
+            StateRepository()
+        )
+    }
+
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -49,6 +62,19 @@ class StateListFragment : Fragment() {
             requireActivity().supportFragmentManager.setFragmentResult(
                 SELECTED_STATE, bundleOf(DATA to selectedState)
             )
+        }
+        adapter.setOnItemLongClickListener { state ->
+            stateChangedHere = true
+            stateViewModel.selectState(state)
+        }
+
+        stateViewModel.selectedState.observe(viewLifecycleOwner) { state ->
+            if (stateChangedHere) {
+                adapter.highlightState(state)
+            }else{
+                adapter.clearHighlight()
+            }
+            stateChangedHere = false
         }
     }
 

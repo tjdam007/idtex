@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.idtex.R
 import com.example.idtex.databinding.ItemStateBinding
 import com.example.idtex.entities.State
 
@@ -53,11 +54,22 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.StateViewHolder>() {
         /**
          * Binds the state data to the view.
          */
-        fun bind(state: State) {
+        fun bind(state: State, isHighlighted: Boolean) {
             binding.stateName.text = state.state
             binding.root.setOnClickListener {
                 onItemClick(state)
+                // Clear Selected State
+                clearHighlight()
             }
+            binding.root.setOnLongClickListener {
+                onItemLongClickListener?.invoke(state)
+                true
+            }
+
+            itemView.setBackgroundColor(
+                if (isHighlighted) itemView.context.getColor(R.color.highlight_color)
+                else itemView.context.getColor(android.R.color.transparent)
+            )
         }
     }
 
@@ -73,7 +85,8 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.StateViewHolder>() {
      * Called by RecyclerView to display the data at the specified position.
      */
     override fun onBindViewHolder(holder: StateViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
+        val state = differ.currentList[position]
+        holder.bind(state, state == highlightedState)
     }
 
     /**
@@ -107,4 +120,30 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.StateViewHolder>() {
     fun getFilteredList(): List<State> {
         return differ.currentList
     }
+
+    private var onItemLongClickListener: ((State) -> Unit)? = null
+    private var highlightedState: State? = null
+
+    fun setOnItemLongClickListener(listener: (State) -> Unit) {
+        onItemLongClickListener = listener
+    }
+
+    fun highlightState(state: State?) {
+        val previousIndex = differ.currentList.indexOf(highlightedState)
+        highlightedState = state
+        val currentIndex = differ.currentList.indexOf(state)
+
+        // Unhighlight the previous item
+        if (previousIndex != -1) notifyItemChanged(previousIndex)
+
+        // Highlight the new item
+        if (currentIndex != -1) notifyItemChanged(currentIndex)
+    }
+
+    fun clearHighlight() {
+        val selected = differ.currentList.indexOf(highlightedState)
+        highlightedState = null
+        if (selected != -1) notifyItemChanged(selected)
+    }
+
 }

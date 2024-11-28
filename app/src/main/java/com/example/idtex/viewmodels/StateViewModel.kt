@@ -40,6 +40,13 @@ class StateViewModel(private val repository: StateRepository) : ViewModel() {
             _countyResponse.postValue(response)
         }
     }
+
+    private val _selectedState = MutableLiveData<State?>()
+    val selectedState: LiveData<State?> get() = _selectedState
+
+    fun selectState(state: State?) {
+        _selectedState.value = state
+    }
 }
 
 /**
