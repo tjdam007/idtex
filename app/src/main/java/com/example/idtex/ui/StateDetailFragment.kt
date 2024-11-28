@@ -70,6 +70,7 @@ class StateDetailFragment : Fragment() {
         requireActivity().supportFragmentManager.setFragmentResultListener(
             SELECTED_STATE, this
         ) { key, bundle ->
+            if (key != SELECTED_STATE) return@setFragmentResultListener
             initViews(bundle)
         }
 
